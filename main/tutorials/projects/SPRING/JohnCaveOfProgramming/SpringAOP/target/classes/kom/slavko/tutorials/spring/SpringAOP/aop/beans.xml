@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd">
+
+
+	<bean id="camera" class="kom.slavko.tutorials.spring.SpringAOP.aop.Camera">
+	</bean>
+	<bean id="logger" class="kom.slavko.tutorials.spring.SpringAOP.aop.Logger">
+	</bean>
+	<!-- <aop:aspectj-autoproxy></aop:aspectj-autoproxy> --> 
+
+	<aop:config>
+		<aop:pointcut
+			expression="within(@Deprecated kom.slavko.tutorials.spring.SpringAOP.aop..*)" id="takePhoto" />    <!--"execution(* kom.slavko.tutorials.spring.SpringAOP.aop.Camera.snap())"-->
+		<aop:pointcut
+			expression="@target(Deprecated)" id="deprecated" /> 
+		<aop:aspect id="loggeraspect" ref="logger">
+			<aop:before method="beforeAdvice" pointcut-ref="takePhoto" />
+			<aop:after method="afterAdvice" pointcut-ref="takePhoto" />
+			<aop:after-returning method="afterReturningAdvice"
+				pointcut-ref="takePhoto" />
+			<aop:after-throwing method="afterThrowingAdvice"
+				pointcut-ref="takePhoto" />
+			<aop:around method="aroundAdvice" pointcut-ref="takePhoto" />
+			<aop:before method="beforeUseOfDeprecated" pointcut-ref="deprecated" />
+		</aop:aspect>
+	</aop:config>
+
+	
+</beans>
