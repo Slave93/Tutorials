@@ -1,0 +1,8 @@
+#Configuration for Tomcat Server for springMVC project
+#Add following lines to Tomcat context.xml file
+<Resource name="jdbc/spring" auth="Container" type="javax.sql.DataSource"
+               maxActive="100" maxIdle="30" maxWait="10000"
+               username="root" password="sourcecode" driverClassName="com.mysql.jdbc.Driver"
+               url="jdbc:mysql://localhost:3306/springtutorial"/>
+
+#Also copy-paste script named springMVCSQLScript and execute in mysqlworkbanc or other mysql managing tool and execute.
