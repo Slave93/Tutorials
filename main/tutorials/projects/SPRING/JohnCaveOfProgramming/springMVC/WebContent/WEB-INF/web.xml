@@ -1,62 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns="http://java.sun.com/xml/ns/javaee"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	id="WebApp_ID" version="2.5">
-	<display-name>springMVC</display-name>
-	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
-	</welcome-file-list>
-	<!-- This servlet is added by clicking new servlet - use an existing servlet 
-		and it is located in springmvc jar. Spring uses this servlet to root any 
-		request that is coming to context root of the project and then tries to find 
-		controller to tell it what to do with that request COntroler which is basicly 
-		normal class anotated with @Controller(in offers-servlet context we added 
-		mvc annotation-driven and bean component-scan) basicly returns only a logical 
-		name then then ViewResolver(added bean of class org.springframework.web.servlet.view.InternalResourceViewResolver) 
-		resolve by adding to it properties suffix and prefix -->
-	<servlet>
-		<description></description>
-		<display-name>offers</display-name>
-		<servlet-name>offers</servlet-name>
-		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<load-on-startup>1</load-on-startup>
-	</servlet>
-	<!-- IT'S predifined that dispatcher tries to find and load servlet context(xml 
-		containing beans and configuration) in servletname-servlet.xml in WEB-INF 
-		folder so we will make one... -->
-	<servlet-mapping>
-		<servlet-name>offers</servlet-name>
-		<url-pattern>/</url-pattern>
-	</servlet-mapping>
-
-	<description>Spring Database</description>
-	<resource-ref>
-		<description>DB Connection</description>
-		<res-ref-name>jdbc/spring</res-ref-name>
-		<res-type>javax.sql.DataSource</res-type>
-		<res-auth>Container</res-auth>
-	</resource-ref>
-
-	<listener>
-		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
-
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" id="WebApp_ID" version="2.5">
+  <display-name>springMVC</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  <servlet>
+    <description></description>
+    <display-name>offers</display-name>
+    <servlet-name>offers</servlet-name>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>offers</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <description>Spring Database</description>
+  <resource-ref>
+    <description>DB Connection</description>
+    <res-ref-name>jdbc/spring</res-ref-name>
+    <res-type>javax.sql.DataSource</res-type>
+    <res-auth>Container</res-auth>
+  </resource-ref>
+  <listener>
+    <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+  </listener>
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>
 		classpath:kom/slavko/tutorials/spring/springMVC/config/core-context.xml
 		</param-value>
-	</context-param>
-
-
-
-
-
-
+  </context-param>
+  <filter>
+    <display-name>Test</display-name>
+    <filter-name>Test</filter-name>
+    <filter-class>kom.slavko.tutorials.spring.springMVC.filters.Test</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>Test</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
 </web-app>

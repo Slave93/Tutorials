@@ -3,8 +3,5 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<import resource="classpath:kom/slavko/tutorials/spring/springMVC/config/dao-context.xml" />
-	<import resource="classpath:kom/slavko/tutorials/spring/springMVC/config/service-context.xml" />
-	<import resource="classpath:kom/slavko/tutorials/spring/springMVC/config/security-context.xml" />
 
 </beans>
