@@ -20,6 +20,7 @@
 		<aop:pointcut
 			expression="@target(Deprecated)" id="deprecated" /> 
 		<aop:aspect id="loggeraspect" ref="logger">
+			<aop:declare-parents types-matching="kom.slavko.tutorials.spring.SpringAOP.aop.*" implement-interface="kom.slavko.tutorials.spring.SpringAOP.aop.ILungs" default-impl="kom.slavko.tutorials.spring.SpringAOP.aop.LungsImpl"/>
 			<aop:before method="beforeAdvice" pointcut-ref="takePhoto" />
 			<aop:after method="afterAdvice" pointcut-ref="takePhoto" />
 			<aop:after-returning method="afterReturningAdvice"
@@ -27,6 +28,7 @@
 			<aop:after-throwing method="afterThrowingAdvice"
 				pointcut-ref="takePhoto" />
 			<aop:around method="aroundAdvice" pointcut-ref="takePhoto" />
+			
 			<aop:before method="beforeUseOfDeprecated" pointcut-ref="deprecated" />
 		</aop:aspect>
 	</aop:config>
