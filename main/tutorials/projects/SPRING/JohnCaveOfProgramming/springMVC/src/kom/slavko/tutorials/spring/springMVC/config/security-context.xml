@@ -13,19 +13,36 @@
 				<security:user name="sanja" authorities="User"
 					password="sourcecode" />
 			</security:user-service>
+
+		</security:authentication-provider>
+		<security:authentication-provider>
+			<security:jdbc-user-service
+				data-source-ref="dataSource" />
 		</security:authentication-provider>
 	</security:authentication-manager>
 
 	<security:http use-expressions="true">
-	<security:intercept-url pattern="/classified"
-			access="denyAll" />
-		<security:intercept-url pattern="/static/**"
-			access="permitAll" />		
+		<security:intercept-url pattern="/createoffer"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/docreate"
+			access="isAuthenticated()" />
+		<security:intercept-url pattern="/offercreated"
+			access="isAuthenticated()" />
 		<security:intercept-url pattern="/" access="permitAll" />
+		<security:intercept-url pattern="/static/**"
+			access="permitAll" />
+		<security:intercept-url pattern="/login"
+			access="permitAll" />
+		<security:intercept-url pattern="/newaccount"
+			access="permitAll" />
+		<security:intercept-url pattern="/createaccount"
+			access="permitAll" />
+		<security:intercept-url pattern="/accountcreated"
+			access="permitAll" />
 		<security:intercept-url pattern="/offers"
 			access="permitAll" />
-		<security:intercept-url pattern="/**"
-			access="isAuthenticated()" />
-		<security:form-login />
+		<security:intercept-url pattern="/**" access="denyAll" />
+		<security:form-login login-page="/login"
+			authentication-failure-url="/login?error=1" />
 	</security:http>
 </beans>
