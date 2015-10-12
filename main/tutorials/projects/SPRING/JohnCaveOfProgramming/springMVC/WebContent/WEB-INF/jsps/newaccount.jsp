@@ -39,7 +39,7 @@
 
 	<br>
 	<div class="container ">
-		<sf:form action="${pageContext.request.contextPath}/accountcreated"
+		<sf:form action="${pageContext.request.contextPath}/createaccount"
 			method="POST" commandName="user">
 			<div class='form-group'>
 				<label for="username" class="col-sm-1 control-label">UserName</label>
@@ -66,7 +66,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label for="password" class="col-sm-1 control-label">Email</label>
+				<label for="password" class="col-sm-1 control-label">Password</label>
 				<div class="col-sm-11" style="margin-left: 0; padding-left: 0">
 					<sf:input type="password" path="password" class="form-control"
 						id="password" name="password"></sf:input>
@@ -76,6 +76,13 @@
 					<span id="helpBlock" class="has-error help-block col-sm-offset-1"><sf:errors
 							path="password"></sf:errors></span>
 				</div>
+			</div>
+			<div class="form-group">
+				<label for="confirmpass" class="col-sm-1 control-label">Confirm Password</label>
+				<div class="col-sm-11" style="margin-left: 0; padding-left: 0">
+					<input type="password" class="form-control"
+						id="confirmpass" name="confirmpass"></input>
+				</div>								
 			</div>
 
 

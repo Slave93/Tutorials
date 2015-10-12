@@ -9,6 +9,10 @@
 	
 	<bean id="offersService"
 		class="kom.slavko.tutorials.spring.springMVC.service.OffersService">
-		<property name="offersDAO" ref="offersDAO"></property>
+		<property name="offersDao" ref="offersDao"></property>
+	</bean>
+	<bean id="usersService"
+		class="kom.slavko.tutorials.spring.springMVC.service.UsersService">
+		<property name="usersDao" ref="usersDao"></property>
 	</bean>
 </beans>

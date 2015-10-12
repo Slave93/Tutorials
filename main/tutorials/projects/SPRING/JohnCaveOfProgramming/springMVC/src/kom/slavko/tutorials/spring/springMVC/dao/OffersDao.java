@@ -19,12 +19,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 
 
-public class OffersDAO {
+public class OffersDao {
 
 	private NamedParameterJdbcTemplate jdbc;
 
 	
-	public OffersDAO() {
+	public OffersDao() {
 		System.out.println("Context DAO SUcessfully LOADEd!!");
 	}
 	

@@ -20,9 +20,21 @@
 
 </head>
 <body onload='document.f.username.focus();'>
-	<h3
-		style="margin: auto; width: 30%; border: 3px solid #40E0D0; padding: 10px; text-align: center">Login
-		with Username and Password</h3>
+	<div class="container bordered" style="background-color: #C8C8C8">
+		<div class="row">
+			<div class="col-md-12">
+				<h1 class="text-center">Login with Username and Password</h1>
+			</div>
+		</div>
+		<div class="row">
+			<ul class="nav">
+				<div class="col-md-1">
+					<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+				</div>
+			</ul>
+		</div>
+	</div>
+	<br/>
 	<div class="container ">
 		<form name='f' action='${pageContext.request.contextPath}/login'
 			method='POST'>
@@ -43,23 +55,23 @@
 				<br>
 			</div>
 			<c:if test="${param.error != null}">
-		<div class="alert alert-danger" role="alert">Username or
-			password is incorrect! Please try again.</div>
+				<div class="alert alert-danger" role="alert">Username or
+					password is incorrect! Please try again.</div>
 
-	</c:if>
-			<div class='form-group' style="margin: auto; width: 30%;  padding: 10px; text-align: center">
-				<div class="col-sm-offset-2 col-sm-3"
-					style="margin-left: 0; padding-left: 0">
-					<input type="submit" class="form-control" id="submit" value="Login"
-						name="submit"></input>
-				</div>
-				<br>
+			</c:if>
+			<div class='form-group'
+				style="margin: auto; width: 30%; padding: 10px; text-align: center">
+
+				<input type="submit" class="form-control" id="submit" value="Login"
+					name="submit"></input>
 			</div>
-			
-			<input type="hidden" name="${_csrf.parameterName}"
-				value="${_csrf.token}" />
+			<br>
+	</div>
 
-		</form>
+	<input type="hidden" name="${_csrf.parameterName}"
+		value="${_csrf.token}" />
+
+	</form>
 
 
 	</div>

@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
- Not yet implemented!
+Account crated sucessfully! :)
 </body>
 </html>
