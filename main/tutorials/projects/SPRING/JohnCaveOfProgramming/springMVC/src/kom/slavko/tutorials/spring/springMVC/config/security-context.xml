@@ -29,10 +29,12 @@
 		<security:intercept-url pattern="/offercreated"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/" access="permitAll" />
+		<security:intercept-url pattern="/loggedout"
+			access="permitAll" />
 		<security:intercept-url pattern="/static/**"
 			access="permitAll" />
 		<security:intercept-url pattern="/login"
-			access="permitAll" />
+			access="permitAll" />		
 		<security:intercept-url pattern="/newaccount"
 			access="isAuthenticated()" />
 		<security:intercept-url pattern="/createaccount"
@@ -44,5 +46,6 @@
 		<security:intercept-url pattern="/**" access="denyAll" />
 		<security:form-login login-page="/login"
 			authentication-failure-url="/login?error=1" />
+		<security:logout logout-success-url="/loggedout" />
 	</security:http>
 </beans>

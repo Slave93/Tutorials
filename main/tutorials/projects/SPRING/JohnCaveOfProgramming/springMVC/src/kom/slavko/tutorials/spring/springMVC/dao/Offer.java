@@ -12,13 +12,13 @@ import org.jboss.logging.Message;
 public class Offer {
 	private int id;
 	
-	@Size(min=5,max=100,message="Name should have betwen 5 and 100 characters")	
+	@Size(min=5,max=100)	
 	private String name;
 	
 	@ValidEmail
 	private String email;	
 	
-	@NotBlank(message="Offer text must be provided")
+	@NotBlank()
 	private String text;
 
 	public int getId() {
