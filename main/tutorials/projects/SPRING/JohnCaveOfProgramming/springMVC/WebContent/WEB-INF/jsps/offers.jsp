@@ -20,14 +20,12 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </head>
 <body>
+	
 	<table class="table table-bordered" style="border: black;">
 		<tr class="info" style="border: black;">
-			<th class="info">Name
-			</th>
-			<th class="info">Email
-			</th>
-			<th class="info">Text
-			</th>
+			<th class="info">Name</th>
+			<th class="info">Email</th>
+			<th class="info">Text</th>
 		</tr>
 
 		<c:forEach var="offer" items="${offers}">
@@ -37,9 +35,5 @@
 				<td class="info">${offer.text}</td>
 			</tr>
 		</c:forEach>
-
-
-	
-
 </body>
 </html>

@@ -3,7 +3,7 @@ package kom.slavko.tutorials.spring.springMVC.service;
 import java.util.List;
 
 import kom.slavko.tutorials.spring.springMVC.dao.Offer;
-import kom.slavko.tutorials.spring.springMVC.dao.OffersDAO;
+import kom.slavko.tutorials.spring.springMVC.dao.OffersDao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,24 +11,24 @@ import org.springframework.stereotype.Service;
 @Service("offersService")
 public class OffersService {
 	
-	OffersDAO offersDAO;
+	OffersDao offersDao;
 	
 	@Autowired
-	public void setOffersDAO(OffersDAO offersDAO) {
-		this.offersDAO = offersDAO;
+	public void setOffersDao(OffersDao offersDAO) {
+		this.offersDao = offersDAO;
 	}
 	
 	public List<Offer> getCurrent(){		
 		
-		return offersDAO.getOffers();
+		return offersDao.getOffers();
 	}
 
 	public void createOffer(Offer offer) {
-		offersDAO.create(offer);
+		offersDao.create(offer);
 	}
 
 	public void throwTestException() {
-		offersDAO.getOffer(-100);
+		offersDao.getOffer(-100);
 		
 	}
 	
