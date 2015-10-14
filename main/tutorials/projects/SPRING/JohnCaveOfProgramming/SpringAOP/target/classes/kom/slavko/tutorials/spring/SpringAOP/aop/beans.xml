@@ -27,6 +27,7 @@
 			<aop:after-throwing method="afterThrowingAdvice"
 				pointcut-ref="takePhoto" />
 			<aop:around method="aroundAdvice" pointcut-ref="takePhoto" />
+			
 			<aop:before method="beforeUseOfDeprecated" pointcut-ref="deprecated" />
 		</aop:aspect>
 	</aop:config>
