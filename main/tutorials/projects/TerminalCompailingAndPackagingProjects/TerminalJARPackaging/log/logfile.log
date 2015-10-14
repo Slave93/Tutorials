@@ -1,3 +1,6 @@
-2015-10-14 16:20:58,836  INFO [main] - kom.slavko.testJAR.App.main 12 - Main started
-2015-10-14 16:20:58,839 FATAL [main] - kom.slavko.testJAR.entities.Student.pozrav 22 - Studnet bacio fataliti
-2015-10-14 16:20:58,840 DEBUG [main] - kom.slavko.testJAR.App.main 15 - Main over
+2015-10-15 00:08:40,314  INFO [main] - kom.slavko.testJAR.App.main 12 - Main started
+2015-10-15 00:08:40,318 FATAL [main] - kom.slavko.testJAR.entities.Student.pozrav 22 - Studnet bacio fataliti
+2015-10-15 00:08:40,318 DEBUG [main] - kom.slavko.testJAR.App.main 15 - Main over
+2015-10-15 00:12:50,591  INFO [main] - kom.slavko.testJAR.App.main 12 - Main started
+2015-10-15 00:12:50,594 FATAL [main] - kom.slavko.testJAR.entities.Student.pozrav 22 - Studnet bacio fataliti
+2015-10-15 00:12:50,594 DEBUG [main] - kom.slavko.testJAR.App.main 15 - Main over
