@@ -1,4 +1,4 @@
-package rs.slavko.tutorials.jpa.messenger.service;
+package rs.slavko.tutorials.jpa.messenger.dao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,12 +13,10 @@ public interface CommentDAO {
 	
 	public List<Comment> getAllComments(long messageId);
 	
-	public Comment getComment(long messageId, int commentId);
+	public Comment getComment(long messageId, int commentNumber);
 	
 	public Comment addComment(long messageId, Comment comment);
 	
-	public Comment updateComment(long messageId, Comment comment);
-	
-	public Comment removeComment(long messageId, int commentId);
+	public Comment removeComment(long messageId, int commentNumber);
 		
 }

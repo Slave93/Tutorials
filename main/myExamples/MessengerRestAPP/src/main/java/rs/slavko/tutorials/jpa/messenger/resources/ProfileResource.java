@@ -12,11 +12,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import rs.slavko.tutorials.jpa.messenger.dao.ProfileDAO;
+import rs.slavko.tutorials.jpa.messenger.dao.ProfileDAOImpl;
 import rs.slavko.tutorials.jpa.messenger.model.Profile;
-import rs.slavko.tutorials.jpa.messenger.service.ProfileDAO;
-import rs.slavko.tutorials.jpa.messenger.service.ProfileDAOImpl;
 
-@Path("/jbprofiles")
+@Path("/profiles")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 public class ProfileResource {
@@ -50,8 +50,8 @@ public class ProfileResource {
 	
 	@DELETE
 	@Path("/{profileName}")
-	public void deleteProfile(@PathParam("profileName") String profileName) {
-		profileDAO.removeProfile(profileName);
+	public Profile deleteProfile(@PathParam("profileName") String profileName) {
+		return profileDAO.removeProfile(profileName);
 	}
 	
 	

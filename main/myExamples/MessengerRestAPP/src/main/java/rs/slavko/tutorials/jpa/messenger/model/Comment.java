@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "comment")
@@ -15,36 +16,28 @@ public class Comment {
 	
 	@Id
 	@GeneratedValue
-	private long id;
-	private int commentSequence;
+	private long id;	
     private String messageTxt;
     private Date created;
     @ManyToOne(optional = true, targetEntity=Profile.class)
     @JoinColumn(name = "author", referencedColumnName = "profileName")
-    private String author;
+    private Profile author;
     @ManyToOne(optional = false, targetEntity=Message.class)
     @JoinColumn(name = "message", referencedColumnName = "id")
     private Message message;
     
     public Comment() {
-    	
-    }
-    
-
-	
+    	created = new Date();
+    }	
 
 
-	public int getCommentSequence() {
-		return commentSequence;
+	public Comment(long id, String messageTxt, Profile author, Message message) {
+		this.id = id;
+		this.messageTxt = messageTxt;
+		this.created = new Date();
+		this.author = author;
+		this.message = message;
 	}
-
-
-
-
-
-	public void setCommentSequence(int commentSequence) {
-		this.commentSequence = commentSequence;
-	}	
 
 
 	public long getId() {
@@ -71,15 +64,15 @@ public class Comment {
 		this.created = created;
 	}
 
-	public String getAuthor() {
+	public Profile getAuthor() {
 		return author;
 	}
 
-	public void setAuthor(String author) {
+	public void setAuthor(Profile author) {
 		this.author = author;
 	}
 	
-	@XmlTransient
+	
 	public Message getMessage() {
 		return message;
 	}

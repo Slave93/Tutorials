@@ -1,6 +1,7 @@
-package rs.slavko.tutorials.jpa.messenger.service;
+package rs.slavko.tutorials.jpa.messenger.dao;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,26 +26,13 @@ public class CommentDAOImpl implements CommentDAO{
 	
 	public Comment addComment(long messageId, Comment comment) {
 		Message message = messageDAO.getMessage(messageId);
-		List<Comment> comments = message.getComments();
-		comment.setCommentSequence(comments.size() + 1);
+		List<Comment> comments = message.getComments();		
 		comment.setMessage(message);
+		comment.setCreated(new Date());
 		EntityManager em = DatabaseClass.getEntityManagerFactoryInstance()
 				.createEntityManager();
 		em.getTransaction().begin();
 		em.persist(comment);
-		em.getTransaction().commit();
-		em.close();
-		return comment;
-	}
-	
-	public Comment updateComment(long messageId, Comment comment) {
-		EntityManager em = DatabaseClass.getEntityManagerFactoryInstance()
-				.createEntityManager();
-		em.getTransaction().begin();
-		Comment com = getComment(messageId, comment.getCommentSequence());
-		com.setAuthor(comment.getAuthor());
-		com.setMessage(comment.getMessage());
-		em.merge(com);
 		em.getTransaction().commit();
 		em.close();
 		return comment;
@@ -55,6 +43,7 @@ public class CommentDAOImpl implements CommentDAO{
 				.createEntityManager();
 		em.getTransaction().begin();		
 		Comment c = getComment(messageId, commentOrder);
+		c = em.merge(c);
 		em.remove(c);
 		em.getTransaction().commit();
 		em.close();

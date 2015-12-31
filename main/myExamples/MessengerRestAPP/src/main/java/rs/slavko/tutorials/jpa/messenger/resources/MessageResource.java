@@ -1,6 +1,7 @@
 package rs.slavko.tutorials.jpa.messenger.resources;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.BeanParam;
@@ -13,18 +14,21 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
+import javax.ws.rs.core.Response.Status;
 
+import rs.slavko.tutorials.jpa.messenger.dao.MessageDAO;
+import rs.slavko.tutorials.jpa.messenger.dao.MessageDAOImpl;
 import rs.slavko.tutorials.jpa.messenger.exception.DataNotFoundException;
+import rs.slavko.tutorials.jpa.messenger.model.ErrorMessage;
 import rs.slavko.tutorials.jpa.messenger.model.Message;
 import rs.slavko.tutorials.jpa.messenger.resources.beans.MessageFilterBean;
-import rs.slavko.tutorials.jpa.messenger.service.MessageDAO;
-import rs.slavko.tutorials.jpa.messenger.service.MessageDAOImpl;
 
-@Path("/jbmessages")
+@Path("/messages")
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)// if you want to provide more consuming and providing formats
 // you can supply media type as @Produces(value = {MediaType.APPLICATION_JSON,MediaType.TEXT_XML}) or @Consumes...
@@ -33,7 +37,7 @@ import rs.slavko.tutorials.jpa.messenger.service.MessageDAOImpl;
 //right method will be called(same as for consumes - ContentType header value in client request)
 public class MessageResource {
 
-	MessageDAO messageDAO = new MessageDAOImpl();
+	MessageDAO messageDAO = new MessageDAOImpl();	
 	/*
 	 Naming of this method does not count. XML will be returned in format
 	 <messages>
@@ -44,34 +48,33 @@ public class MessageResource {
 	 	...
 	 </messages>
 	 */
-	@GET
-	@Produces(value = {MediaType.APPLICATION_JSON,MediaType.TEXT_XML})
-	public List<Message> getMessages(@BeanParam MessageFilterBean filterBean) {
-		if (filterBean.getYear() > 0) {
-			return messageDAO.getAllMessagesForYear(filterBean.getYear());
-		}
-		if (filterBean.getStart() >= 0 && filterBean.getSize() > 0) {
-			return messageDAO.getAllMessagesPaginated(filterBean.getStart(), filterBean.getSize());
-		}
+	@GET	
+	public List<Message> getMessages(@QueryParam("profName") String profName) {
+		if(profName!=null){
+			return messageDAO.getAllMessagesForProfile(profName);
+		}		
 		return messageDAO.getAllMessages();
 	}
 
 	@POST
-	public Response addMessage(Message message,@Context UriInfo uriInfo) {
-		message = messageDAO.addMessage(message);
+	public Response addMessage(Message message,@Context UriInfo uriInfo,@BeanParam MessageFilterBean filterBean) {
+		if(filterBean.getProfileName()==null){
+			// Ovo su BUILT IN 	exceptioni JAX-RS-a koje mozes da koristis bez mappera
+			// mozes da koristis i neke od podklasa WebApplicationException klase
+			// kao sto su NotFound,ServerError, gde je status vec podesen pa ne moras da bildujes
+			// response samo prosledis errorMessage konstruktoru exceptiona
+			ErrorMessage errorMessage = new ErrorMessage("Must provide profile name in query param", 404, "http://slavko.komarica.rs");
+			Response res =  Response.status(Status.BAD_REQUEST).entity(errorMessage).build();
+			throw new  WebApplicationException(res);
+		}
+		
+		message = messageDAO.addMessage(filterBean.getProfileName(), message);
 		//mozes da koristis i Response.status(...).entity().build(); ali imas i ovako metode koje automatski
 		//postavljaju status plus ova created prima sta je to kreirano
 		return Response.created(uriInfo.getAbsolutePathBuilder().path(String.valueOf(message.getId())).build())
 					   .entity(message).build();
-	}
+	}	
 	
-	@PUT
-	@Path("/{messageId}")
-	public Message updateMessage(@PathParam("messageId") long id, Message message) {
-		message.setId(id);
-		//mogao si i ovde da menjas statuse i to...
-		return messageDAO.updateMessage(message);
-	}
 	
 	@DELETE
 	@Path("/{messageId}")
@@ -110,7 +113,7 @@ public class MessageResource {
 	private String getUriForProfile(UriInfo uriInfo, Message message) {
 		URI uri = uriInfo.getBaseUriBuilder()
        		 .path(ProfileResource.class)
-       		 .path(message.getAuthor())
+       		 .path(message.getAuthor().getProfileName())
              .build();
         return uri.toString();
 	}

@@ -1,4 +1,4 @@
-package rs.slavko.tutorials.jpa.messenger.service;
+package rs.slavko.tutorials.jpa.messenger.dao;
 
 import java.util.ArrayList;
 import java.util.List;

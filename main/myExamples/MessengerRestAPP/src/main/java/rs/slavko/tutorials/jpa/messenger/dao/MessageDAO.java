@@ -1,4 +1,4 @@
-package rs.slavko.tutorials.jpa.messenger.service;
+package rs.slavko.tutorials.jpa.messenger.dao;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,12 +19,13 @@ public interface MessageDAO {
 	
 	public List<Message> getAllMessagesPaginated(int start, int size);
 	
+	public List<Message> getAllMessagesForProfile(String profileName);
 	
-	public Message getMessage(long id);
+	public Message getMessage(String profileName, int messageNumber);
 	
-	public Message addMessage(Message message);
+	public Message getMessage(long id);	
 	
-	public Message updateMessage(Message message);
+	public Message addMessage(String profileName, Message message);	
 	
 	public Message removeMessage(long id);
 	

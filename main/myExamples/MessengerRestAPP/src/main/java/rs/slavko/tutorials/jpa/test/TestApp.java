@@ -1,17 +1,19 @@
 package rs.slavko.tutorials.jpa.test;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 
+import rs.slavko.tutorials.jpa.messenger.dao.CommentDAO;
+import rs.slavko.tutorials.jpa.messenger.dao.CommentDAOImpl;
+import rs.slavko.tutorials.jpa.messenger.dao.MessageDAO;
+import rs.slavko.tutorials.jpa.messenger.dao.MessageDAOImpl;
+import rs.slavko.tutorials.jpa.messenger.dao.ProfileDAO;
+import rs.slavko.tutorials.jpa.messenger.dao.ProfileDAOImpl;
 import rs.slavko.tutorials.jpa.messenger.database.DatabaseClass;
 import rs.slavko.tutorials.jpa.messenger.model.Comment;
 import rs.slavko.tutorials.jpa.messenger.model.Message;
 import rs.slavko.tutorials.jpa.messenger.model.Profile;
-import rs.slavko.tutorials.jpa.messenger.service.CommentDAO;
-import rs.slavko.tutorials.jpa.messenger.service.CommentDAOImpl;
-import rs.slavko.tutorials.jpa.messenger.service.MessageDAO;
-import rs.slavko.tutorials.jpa.messenger.service.MessageDAOImpl;
-import rs.slavko.tutorials.jpa.messenger.service.ProfileDAO;
-import rs.slavko.tutorials.jpa.messenger.service.ProfileDAOImpl;
 
 public class TestApp {
 	public static void main(String[] args) {
@@ -27,10 +29,15 @@ public class TestApp {
 		em.merge(p);
 		em.getTransaction().commit();*/
 		
-		Profile p  = em.find(Profile.class, "Novica");
+		/*Profile p  = em.find(Profile.class, "Novica");
 		em.getTransaction().begin();
 		em.remove(p);
-		em.getTransaction().commit();
+		em.getTransaction().commit();*/
+		List<Message> lm = md.getAllMessages();
+		for(Message m : lm){
+			System.out.println(m);
+		}
+		
 		
 		/*Message m = em.find(Message.class, 1l);
 		em.getTransaction().begin();

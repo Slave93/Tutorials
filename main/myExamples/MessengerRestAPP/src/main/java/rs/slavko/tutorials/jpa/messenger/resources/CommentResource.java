@@ -16,10 +16,10 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import rs.slavko.tutorials.jpa.messenger.dao.CommentDAO;
+import rs.slavko.tutorials.jpa.messenger.dao.CommentDAOImpl;
 import rs.slavko.tutorials.jpa.messenger.model.Comment;
 import rs.slavko.tutorials.jpa.messenger.model.ErrorMessage;
-import rs.slavko.tutorials.jpa.messenger.service.CommentDAO;
-import rs.slavko.tutorials.jpa.messenger.service.CommentDAOImpl;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
@@ -39,25 +39,19 @@ public class CommentResource {
 	@POST
 	public Comment addComment(@PathParam("messageId") long messageId, Comment comment) {
 		return commentDAO.addComment(messageId, comment);
-	}
-	
-	@PUT
-	@Path("/{commentId}")
-	public Comment updateComment(@PathParam("messageId") long messageId, @PathParam("commentId") long commentSequence, Comment comment) {
-		comment.setCommentSequence((int)commentSequence);
-		return commentDAO.updateComment(messageId, comment);
-	}
+	}	
+
 	
 	@DELETE
-	@Path("/{commentId}")
-	public void deleteComment(@PathParam("messageId") long messageId, @PathParam("commentId") long commentOrder) {
+	@Path("/{commentOrder}")
+	public void deleteComment(@PathParam("messageId") long messageId, @PathParam("commentOrder") long commentOrder) {
 		commentDAO.removeComment(messageId, (int)commentOrder);
 	}
 	
 	
 	@GET
-	@Path("/{commentId}")
-	public Comment getMessage(@PathParam("messageId") long messageId, @PathParam("commentId") long commentOrder) {
+	@Path("/{commentOrder}")
+	public Comment getComment(@PathParam("messageId") long messageId, @PathParam("commentOrder") long commentOrder) {
 		Comment comment = commentDAO.getComment(messageId, (int)commentOrder);
 		if(comment==null){
 			// Ovo su BUILT IN 	exceptioni JAX-RS-a koje mozes da koristis bez mappera

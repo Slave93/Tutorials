@@ -7,7 +7,7 @@ import javax.ws.rs.ext.Provider;
 
 import rs.slavko.tutorials.jpa.messenger.model.ErrorMessage;
 
-@Provider
+//@Provider
 public class DataNotFoundExceptionMapper implements ExceptionMapper<DataNotFoundException> {
 
 	@Override

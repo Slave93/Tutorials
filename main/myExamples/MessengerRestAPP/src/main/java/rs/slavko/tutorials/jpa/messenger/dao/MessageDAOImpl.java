@@ -1,4 +1,4 @@
-package rs.slavko.tutorials.jpa.messenger.service;
+package rs.slavko.tutorials.jpa.messenger.dao;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +20,8 @@ import rs.slavko.tutorials.jpa.messenger.model.Message;
 import rs.slavko.tutorials.jpa.messenger.model.Profile;
 
 public class MessageDAOImpl implements MessageDAO {	
+	
+	private ProfileDAO pd = new ProfileDAOImpl();
 	
 	
 	public List<Message> getAllMessages() {
@@ -48,48 +50,56 @@ public class MessageDAOImpl implements MessageDAO {
 		if (start + size > list.size()) return new ArrayList<Message>();
 		return list.subList(start, start + size); 
 	}
-	
+
+	@Override
+	public List<Message> getAllMessagesForProfile(String profileName) {
+		EntityManager em = DatabaseClass.getEntityManagerFactoryInstance()
+				.createEntityManager();		
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+		CriteriaQuery cqry = cb.createQuery();
+		Root<Message> root = cqry.from(Message.class);
+		cqry.select(root);		
+		Predicate pname = cb.equal(root.get("author").get("profileName"), profileName);
+		cqry.where(pname);		
+		Query qry = em.createQuery(cqry);
+		List<Message> results = qry.getResultList();
+		em.close();		
+		return results;		
+	}
+
+	@Override
+	public Message getMessage(String profileName, int messageNumber) {
+		return getAllMessagesForProfile(profileName).get(messageNumber);
+	}	
 	
 	public Message getMessage(long id) {
 		return DatabaseClass.getEntityManagerFactoryInstance().createEntityManager().find(Message.class, id);
 	}
 	
-	public Message addMessage(Message message) {
+	public Message addMessage(String profileName, Message message) {
 		EntityManager em = DatabaseClass.getEntityManagerFactoryInstance()
 				.createEntityManager();
 		em.getTransaction().begin();
-		Message m = new Message();
-		m.setAuthor(message.getAuthor());
-		m.setMessage(message.getMessage());
-		em.persist(m);
-		em.getTransaction().commit();
-		em.close();
-		return m;
-	}
-	
-	public Message updateMessage(Message message) {
-		if (message.getId() <= 0) {
-			return null;
-		}
-		EntityManager em = DatabaseClass.getEntityManagerFactoryInstance()
-				.createEntityManager();
-		em.getTransaction().begin();
-		Message m = getMessage(message.getId());
-		m.setMessage(message.getMessage());
-		m.setAuthor(message.getAuthor());
-		//em.persist(m);
+		message.setCreated(new Date());
+		Profile p = pd.getProfile(profileName);
+		message.setAuthor(p);
+		em.persist(message);
 		em.getTransaction().commit();
 		em.close();
 		return message;
-	}
+	}	
 	
 	public Message removeMessage(long id) {
 		EntityManager em = DatabaseClass.getEntityManagerFactoryInstance()
 				.createEntityManager();
 		em.getTransaction().begin();
 		Message m = getMessage(id);
+		m = em.merge(m);
 		em.remove(m);
 		em.getTransaction().commit();
+		em.close();
 		return m;
 	}
+
+
 }

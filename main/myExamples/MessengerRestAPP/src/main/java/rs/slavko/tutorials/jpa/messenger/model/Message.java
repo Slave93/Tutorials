@@ -10,6 +10,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -24,7 +26,9 @@ public class Message {
 	private long id;
     private String message;
     private Date created;
-    private String author;
+    @ManyToOne(optional = true, targetEntity=Profile.class)
+    @JoinColumn(name = "author", referencedColumnName = "profileName")
+    private Profile author;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "message")
     private List<Comment> comments;
     @Transient
@@ -34,7 +38,7 @@ public class Message {
     	this.created = new Date();
     }
     
-    public Message(long id, String message, String author) {
+    public Message(long id, String message, Profile author) {
     	this.id = id;
     	this.message = message;
     	this.author = author;
@@ -59,10 +63,10 @@ public class Message {
 	public void setCreated(Date created) {
 		this.created = created;
 	}
-	public String getAuthor() {
+	public Profile getAuthor() {
 		return author;
 	}
-	public void setAuthor(String author) {
+	public void setAuthor(Profile author) {
 		this.author = author;
 	}
 	
