@@ -1,29 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-    xmlns:beans="http://www.springframework.org/schema/beans"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:security="http://www.springframework.org/schema/security"    
-    xsi:schemaLocation="
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="
     	http://www.springframework.org/schema/beans 
     	http://www.springframework.org/schema/beans/spring-beans.xsd
                 
         http://www.springframework.org/schema/security 
         http://www.springframework.org/schema/security/spring-security.xsd">
-	
-	
+
+
 	<!-- Stateless RESTful services use BASIC authentication -->
-    <security:http create-session="stateless" pattern="/mywebapi/**">
-        <security:intercept-url pattern="/**" access="ROLE_REST"/>
-        <security:http-basic/>
-    </security:http>
- 
-    <security:authentication-manager>
-        <security:authentication-provider>
-            <security:user-service>
-                <security:user name="rest" password="rest" authorities="ROLE_REST"/>
-            </security:user-service>
-        </security:authentication-provider>
-    </security:authentication-manager>
- 
+	<security:http use-expressions="true" auto-config="false"
+		create-session="stateless" entry-point-ref="unauthorisedEntryPoint">
+		<security:intercept-url pattern="/mywebapi/authenticate"
+			access="permitAll" />
+		<security:intercept-url pattern="/mywebapi/**"
+			access="hasRole('ROLE_REST')" />
+		<custom-filter ref="ticketProccessingFilter" after="PRE_AUTH_FILTER"/>	
+	</security:http>
+
+	<beans:bean id="ticketProccessingFilter"
+		class="rs.slavko.tutorials.jpa.webapp.filters.TicketProccessingFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+		<beans:property name="customUserDetailsService" ref="customUserDetailsService"></beans:property>	
+	</beans:bean>
+
+	<beans:bean id="encoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
+	<beans:bean id="customUserDetailsService"
+		class="rs.slavko.tutorials.jpa.services.authentication.CustomUserDetailService"></beans:bean>
+	<beans:bean id="unauthorisedEntryPoint"
+		class="rs.slavko.tutorials.jpa.services.authentication.UnauthorisedEntryPoint"></beans:bean>
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider
+			user-service-ref="customUserDetailsService">
+			<password-encoder ref="encoder"></password-encoder>
+		</security:authentication-provider>
+	</security:authentication-manager>
+
 </beans:beans>
 

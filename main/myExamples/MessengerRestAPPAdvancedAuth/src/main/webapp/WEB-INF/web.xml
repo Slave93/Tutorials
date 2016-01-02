@@ -11,7 +11,7 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
+
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
@@ -52,8 +52,20 @@
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
 
+	<!-- filter>
+		<filter-name>TicketProccessingFilter</filter-name>
+		<filter-class>rs.slavko.tutorials.jpa.webapp.filters.TicketProccessingFilter</filter-class>
+	</filter-->
+
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/mywebapi/*</url-pattern>
 	</filter-mapping>
+	
+	<!-- filter-mapping>
+		<filter-name>TicketProccessingFilter</filter-name>
+		<url-pattern>/mywebapi/*</url-pattern>
+	</filter-mapping-->
+
+
 </web-app>
