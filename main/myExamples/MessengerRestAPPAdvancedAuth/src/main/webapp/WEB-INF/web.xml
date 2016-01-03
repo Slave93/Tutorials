@@ -20,7 +20,12 @@
 	</param-value>
 	</context-param>
 
-
+	<!--servlet> <servlet-name>Jersey Web Application</servlet-name> <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class> 
+		<init-param> <param-name>com.sun.jersey.config.property.packages</param-name> 
+		<param-value>rs.slavko.tutorials.jpa.messenger</param-value> </init-param> 
+		<init-param> <param-name>com.sun.jersey.config.property.packages</param-name> 
+		<param-value>org.codehaus.jackson.jaxrs</param-value> </init-param> <load-on-startup>1</load-on-startup> 
+		</servlet -->
 
 	<servlet>
 		<servlet-name>Jersey Web Application</servlet-name>
@@ -30,11 +35,12 @@
 			<param-value>rs.slavko.tutorials.jpa.messenger</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
-	</servlet>
+	</servlet>	
 	<servlet-mapping>
 		<servlet-name>Jersey Web Application</servlet-name>
 		<url-pattern>/mywebapi/*</url-pattern>
 	</servlet-mapping>
+	
 	<servlet>
 		<description></description>
 		<display-name>SetCookieServlet</display-name>
@@ -52,20 +58,16 @@
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
 
-	<!-- filter>
-		<filter-name>TicketProccessingFilter</filter-name>
-		<filter-class>rs.slavko.tutorials.jpa.webapp.filters.TicketProccessingFilter</filter-class>
-	</filter-->
+	<!-- filter> <filter-name>TicketProccessingFilter</filter-name> <filter-class>rs.slavko.tutorials.jpa.webapp.filters.TicketProccessingFilter</filter-class> 
+		</filter -->
 
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/mywebapi/*</url-pattern>
 	</filter-mapping>
-	
-	<!-- filter-mapping>
-		<filter-name>TicketProccessingFilter</filter-name>
-		<url-pattern>/mywebapi/*</url-pattern>
-	</filter-mapping-->
+
+	<!-- filter-mapping> <filter-name>TicketProccessingFilter</filter-name> 
+		<url-pattern>/mywebapi/*</url-pattern> </filter-mapping -->
 
 
 </web-app>

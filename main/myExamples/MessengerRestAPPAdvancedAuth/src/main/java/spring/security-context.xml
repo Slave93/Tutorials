@@ -15,15 +15,17 @@
 		create-session="stateless" entry-point-ref="unauthorisedEntryPoint">
 		<security:intercept-url pattern="/mywebapi/authenticate"
 			access="permitAll" />
+		<security:intercept-url pattern="/mywebapi/profiles"
+			access="permitAll" />
 		<security:intercept-url pattern="/mywebapi/**"
 			access="hasRole('ROLE_REST')" />
-		<custom-filter ref="ticketProccessingFilter" after="PRE_AUTH_FILTER"/>	
+		<custom-filter ref="ticketProccessingFilter" after="PRE_AUTH_FILTER" />
 	</security:http>
 
 	<beans:bean id="ticketProccessingFilter"
 		class="rs.slavko.tutorials.jpa.webapp.filters.TicketProccessingFilter">
 		<beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
-		<beans:property name="customUserDetailsService" ref="customUserDetailsService"></beans:property>	
+		<beans:property name="customUserDetailsService" ref="customUserDetailsService"></beans:property>
 	</beans:bean>
 
 	<beans:bean id="encoder"

@@ -14,6 +14,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 import rs.slavko.tutorials.jpa.messenger.database.DatabaseClass;
 import rs.slavko.tutorials.jpa.messenger.model.Message;
 import rs.slavko.tutorials.jpa.messenger.model.Profile;
@@ -51,7 +54,11 @@ public class ProfileDAOImpl implements ProfileDAO {
 	public Profile addProfile(Profile profile) {
 		EntityManager em = DatabaseClass.getEntityManagerFactoryInstance()
 				.createEntityManager();
-		em.getTransaction().begin();		
+		em.getTransaction().begin();
+		PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(); 
+	    String encodedPassword = passwordEncoder.encode(profile.getPassword());  
+	    System.out.println(encodedPassword);
+	    profile.setPassword(encodedPassword);
 		em.persist(profile);
 		em.getTransaction().commit();
 		em.close();		

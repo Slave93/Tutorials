@@ -4,7 +4,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.ws.rs.BeanParam;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -57,8 +57,8 @@ public class MessageResource {
 	}
 
 	@POST
-	public Response addMessage(Message message,@Context UriInfo uriInfo,@BeanParam MessageFilterBean filterBean) {
-		if(filterBean.getProfileName()==null){
+	public Response addMessage(Message message,@Context UriInfo uriInfo,@QueryParam("profileName") String profileName) {
+		if(profileName==null){
 			// Ovo su BUILT IN 	exceptioni JAX-RS-a koje mozes da koristis bez mappera
 			// mozes da koristis i neke od podklasa WebApplicationException klase
 			// kao sto su NotFound,ServerError, gde je status vec podesen pa ne moras da bildujes
@@ -68,7 +68,7 @@ public class MessageResource {
 			throw new  WebApplicationException(res);
 		}
 		
-		message = messageDAO.addMessage(filterBean.getProfileName(), message);
+		message = messageDAO.addMessage(profileName, message);
 		//mozes da koristis i Response.status(...).entity().build(); ali imas i ovako metode koje automatski
 		//postavljaju status plus ova created prima sta je to kreirano
 		return Response.created(uriInfo.getAbsolutePathBuilder().path(String.valueOf(message.getId())).build())
@@ -101,13 +101,14 @@ public class MessageResource {
 	}
 
 	private String getUriForComments(UriInfo uriInfo, Message message) {
-		URI uri = uriInfo.getBaseUriBuilder()
+		/*URI uri = uriInfo.getBaseUriBuilder()
 				.path(MessageResource.class)
 	       		.path(MessageResource.class, "getCommentResource")
 	       		.path(CommentResource.class)
 	       		.resolveTemplate("messageId", message.getId())// cause now link contain's variable portion of messageId we need to resolve that to a value
 	            .build();
-	    return uri.toString();
+	    return uri.toString();*/
+		return "";
 	}
 
 	private String getUriForProfile(UriInfo uriInfo, Message message) {

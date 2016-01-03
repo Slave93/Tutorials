@@ -16,17 +16,19 @@ public class Profile {
     private String firstName;
     private String lastName;
     private String password;
+    private String role;
    
     
     public Profile() {
     	
     }
     
-	public Profile(String profileName, String firstName, String lastName,String password) {		
+	public Profile(String profileName, String firstName, String lastName,String password,String role) {		
 		this.profileName = profileName;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.password = password;		
+		this.role = role;
 	}
 	
 	public String getPassword() {
@@ -62,6 +64,14 @@ public class Profile {
 		return "Profile [profileName=" + profileName
 				+ ", firstName=" + firstName + ", lastName=" + lastName
 				+ "]";
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
     
     

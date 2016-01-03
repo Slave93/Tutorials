@@ -54,10 +54,12 @@ public class TicketProccessingFilter extends GenericFilterBean {
 	public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
 		System.out.println("###############Custom filter################");
-
+		
+		//SecurityContextHolder.getContext().setAuthentication(null);
+		chain.doFilter(request, response);
 		// HttpServletRequest requestHTTP = (HttpServletRequest) request;
 
-		UserDetails user = customUserDetailsService
+		/*UserDetails user = customUserDetailsService
 				.loadUserByUsername("Slave93");
 		Authentication authentication = new UsernamePasswordAuthenticationToken(
 				user, null, user.getAuthorities());
@@ -65,8 +67,8 @@ public class TicketProccessingFilter extends GenericFilterBean {
 		System.out
 				.println("Logging in with {}" + authentication.getPrincipal());
 		SecurityContextHolder.getContext().setAuthentication(authentication);
-
-		chain.doFilter(request, response);
+*/
+		
 	}
 
 }
