@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+
+	<!-- Stateless RESTful services use BASIC authentication -->
+	<security:http use-expressions="true" auto-config="false"
+		create-session="stateless" entry-point-ref="unauthorisedEntryPoint">
+		<security:intercept-url pattern="/mywebapi/authenticate"
+			access="permitAll" />
+		<security:intercept-url pattern="/mywebapi/profiles"
+			access="permitAll" />
+		<security:intercept-url pattern="/mywebapi/**"
+			access="hasRole('ROLE_REST')" />
+		<custom-filter ref="ticketProccessingFilter" after="PRE_AUTH_FILTER" />
+	</security:http>
+
+	<security:authentication-manager alias="authenticationManager">
+		<security:authentication-provider
+			user-service-ref="customUserDetailsService">
+			<password-encoder ref="encoder"></password-encoder>
+		</security:authentication-provider>
+	</security:authentication-manager>
+
+	<beans:bean id="ticketProccessingFilter"
+		class="templateapp.security.filter.TicketProccessingFilter">
+		<beans:property name="authenticationManager" ref="authenticationManager"></beans:property>
+		<beans:property name="customUserDetailsService" ref="customUserDetailsService"></beans:property>
+		<beans:property name="authenticationService" ref="authenticationService"></beans:property>
+	</beans:bean>
+
+	<beans:bean id="encoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"></beans:bean>
+	<beans:bean id="customUserDetailsService"
+		class="templateapp.security.CustomUserDetailService"></beans:bean>
+	<beans:bean id="unauthorisedEntryPoint" class="templateapp.security.UnauthorisedEntryPoint"></beans:bean>
+
+
+	<!-- Scanning components created by jersey servlet -->
+	<context:component-scan base-package="rs.slavko.tutorials.jpa.messenger.resources" />
+	
+	<beans:bean id="ticketService" class="templateapp.core.service.authentication.TicketService">
+		<beans:property name="ticketCash" ref="ticketCash"></beans:property>
+	</beans:bean>
+	<beans:bean id="ticketCash" class="templateapp.core.model.ticket.InMemoryTicketCash">
+	</beans:bean>
+	<beans:bean id="authenticationService" class="templateapp.core.service.authentication.AuthenticationServiceImpl">
+		<beans:property name="ticketService" ref="ticketService"></beans:property>
+	</beans:bean>
+
+</beans:beans>
+
